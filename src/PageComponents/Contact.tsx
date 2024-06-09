@@ -22,7 +22,7 @@ export default function Contact() {
               <p className="flex items-start -mx-2">
                 <FaEnvelope className="w-6 h-6 mx-2 text-blue-500 dark:text-blue-400" />
                 <span className="mx-2 text-gray-700 truncate w-72 dark:text-white">
-                  davidforster990@gmail.com
+                  enquiries@adforsterwindowcleaning.co.uk
                 </span>
               </p>
             </div>
