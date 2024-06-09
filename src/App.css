@@ -1,0 +1,14 @@
+/* In your main CSS file or index.css */
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+/* Custom Swiper pagination styles for light mode */
+.swiper-pagination-bullet {
+    background: #000 !important;
+  }
+  
+  /* Custom Swiper pagination styles for dark mode */
+  .dark .swiper-pagination-bullet {
+    background: #fff !important;
+  }
+
