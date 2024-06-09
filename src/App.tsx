@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './MainPages/Home';
 import About from './MainPages/About';
-// import Gallery from './MainPages/gallery';
+import Gallery from './MainPages/gallery';
 import FAQ from './MainPages/faq';
 import Contact from './MainPages/contact';
 import Layout from './Layout/layout';
@@ -24,7 +24,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path='/' element={<Home />} />
               <Route path='/about' element={<About />} />
-              {/* <Route path='/gallery' element={<Gallery />} /> */}
+              <Route path='/gallery' element={<Gallery />} />
               <Route path='/faq' element={<FAQ />} />
               <Route path='/services/:id' element={<ServiceDetail />} />
               <Route path='/contact' element={<Contact />} />
