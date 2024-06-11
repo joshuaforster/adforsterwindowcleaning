@@ -66,7 +66,7 @@ const TestimonialSlider: React.FC = () => {
   }
 
   return (
-    <div className="py-16 mx-auto bg-gray-100 dark:bg-#0C0500">
+    <div className="py-16 mx-auto  dark:bg-gray-900 bg-gray-100 dark:bg-#0C0500">
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8 dark:text-white">Testimonials</h2>
         <p className="text-center mb-8 text-gray-600 dark:text-gray-300">
