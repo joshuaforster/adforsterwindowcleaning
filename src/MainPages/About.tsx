@@ -1,7 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createClient, EntryCollection } from 'contentful';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import AboutContact from '../PageComponents/aboutContact';
 
-export default function About() {
+const client = createClient({
+  space: '7y2nhmah12fi',
+  accessToken: 'VPNyQgxB1pWAka3k7hdMjZyWTPNuBmdWTmVnF1UydtQ',
+});
+
+interface AboutPageFields {
+  heading: string;
+  information: any; // Using 'any' for now, you can define a more specific type later
+  image: {
+    fields: {
+      file: {
+        url: string;
+      };
+    };
+  };
+}
+
+const About: React.FC = () => {
+  const [heading, setHeading] = useState<string | null>(null);
+  const [information, setInformation] = useState<any>(null);
+  const [image, setImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        // @ts-ignore
+        const response: EntryCollection<AboutPageFields> = await client.getEntries<AboutPageFields>({
+          content_type: 'aboutPage',
+          limit: 1,
+        });
+
+        if (response.items.length > 0) {
+          const fields = response.items[0].fields;
+          // @ts-ignore
+          setHeading(fields.heading);
+          // @ts-ignore
+          setInformation(fields.information);
+          // @ts-ignore
+          setImage(fields.image.fields.file.url);
+        } else {
+          setError('No content found.');
+        }
+      } catch (error) {
+        console.error('Error fetching content:', error);
+        setError('Error fetching content.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  const options = {
+    renderMark: {
+      [MARKS.BOLD]: (text: React.ReactNode) => <span className="font-bold">{text}</span>,
+      [MARKS.ITALIC]: (text: React.ReactNode) => <span className="italic">{text}</span>,
+      [MARKS.UNDERLINE]: (text: React.ReactNode) => <span className="underline">{text}</span>,
+    },
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node: any, children: React.ReactNode) => <p className="mb-4 font-light">{children}</p>,
+      [BLOCKS.HEADING_1]: (node: any, children: React.ReactNode) => <h1 className="text-3xl font-bold">{children}</h1>,
+      [BLOCKS.HEADING_2]: (node: any, children: React.ReactNode) => <h2 className="text-2xl font-bold">{children}</h2>,
+      [BLOCKS.HEADING_3]: (node: any, children: React.ReactNode) => <h3 className="text-xl font-bold">{children}</h3>,
+      [BLOCKS.UL_LIST]: (node: any, children: React.ReactNode) => <ul className="list-disc list-inside mb-4">{children}</ul>,
+      [BLOCKS.OL_LIST]: (node: any, children: React.ReactNode) => <ol className="list-decimal list-inside mb-4">{children}</ol>,
+      [BLOCKS.QUOTE]: (node: any, children: React.ReactNode) => <blockquote className="pl-4 border-l-4 border-gray-500 italic mb-4">{children}</blockquote>,
+    },
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
@@ -9,22 +91,11 @@ export default function About() {
           <div className="lg:w-2/3">
             <div className="max-w-screen-lg text-gray-500 sm:text-lg dark:text-white">
               <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
-                About AD Forster Window Cleaning
+                {heading}
               </h2>
-              <p className="mb-4 font-light">
-                At AD Forster Window Cleaning, we pride ourselves on delivering top-notch window cleaning services that stand out from the rest. What makes us special? Our commitment to excellence and our unique approach to window cleaning.
-              </p>
-              <p className="mb-4 font-light">
-                We use a combination of pure water technology and traditional methods to ensure your windows are spotless and streak-free. Our pure water system filters out impurities, providing a superior clean that not only looks great but also helps to protect your windows from future dirt buildup.
-              </p>
-              <p className="mb-4 font-light">
-                Our traditional methods, honed over years of experience, guarantee meticulous attention to detail. Whether it's a residential property or a commercial building, our team is dedicated to achieving the highest standards of cleanliness and customer satisfaction.
-              </p>
-              <p className="mb-4 font-medium">
-                Choose AD Forster Window Cleaning for a service that combines innovation with time-tested techniques, ensuring your windows shine bright and clear.
-              </p>
+              {information && documentToReactComponents(information, options)}
               <div className="flex mt-4">
-                <img className='w-full max-w-screen-md' alt="Meaningful description" src='images/about.jpg' />
+                {image && <img className='w-full max-w-screen-md' alt="About AD Forster Window Cleaning" src={image} />}
               </div>
             </div>
           </div>
@@ -37,4 +108,6 @@ export default function About() {
       </div>
     </section>
   );
-}
+};
+
+export default About;

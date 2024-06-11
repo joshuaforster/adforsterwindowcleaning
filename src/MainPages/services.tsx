@@ -18,7 +18,7 @@ export default function ServiceDetail() {
   const renderOptions = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
-        return <p className="mb-4">{children}</p>;
+        return <p className="mb-4">{children}</p>; // Adds margin-bottom to each paragraph
       },
       // You can add more custom renderers here if needed
     },
