@@ -101,17 +101,6 @@ export default function Footer() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Contact</h3>
-                <ul className="mt-6 space-y-4">
-                  <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                    <a href="tel:+447342367824">Phone: 07342 367824</a>
-                  </li>
-                  <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                    <a href="mailto:enquiries@adforsterwindowcleaning.co.uk">Email: enquiries@adforsterwindowcleaning.co.uk</a>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
