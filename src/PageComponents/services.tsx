@@ -1,40 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useServices } from '../CustomComponents/ServicesContext';
-import Button from '../CustomComponents/buttons';
 
 const Services: React.FC = () => {
   const { services } = useServices();
   const navigate = useNavigate();
+  const [showAll, setShowAll] = useState(false);
+
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
+  const servicesToShow = showAll ? services : services.slice(0, 3);
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-        <div className="max-w-screen-md mb-8 lg:mb-16">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            Designed for Homes and Businesses Like Yours
-          </h2>
-          <p className="text-gray-500 sm:text-xl dark:text-gray-400">
-            Here at AD Forster Window Cleaning, we focus on providing top-quality cleaning services that enhance your living and working environments, ensuring cleanliness and comfort to help drive your daily success.
+    <div className="bg-white dark:bg-gray-900 py-16">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:text-center">
+          <h2 className="text-base font-semibold leading-7 text-customBlue dark:text-customBlue">Services</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            Perfect for Homes and Businesses
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-500 dark:text-gray-300">
+            At AD Forster Window Cleaning, we provide top-quality cleaning services to enhance your living and working environments.
           </p>
         </div>
-        <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <div key={service.id} className="p-6 transition-transform duration-300 transform bg-white rounded-lg shadow-md hover:scale-105 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-lg hover:border dark:border-gray-700">
-                <div className="flex flex-col items-start mb-4">
-                  <Icon className="w-10 h-10 text-primary-500 lg:h-12 lg:w-12 text-gray-800 dark:text-white mb-4" />
-                  <h3 className="mb-2 text-xl font-bold text-gray-800 dark:text-white">{service.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">{service.description}</p>
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+            {servicesToShow.map((service) => {
+              const Icon = service.icon;
+              return (
+                <div 
+                  key={service.id} 
+                  className="flex flex-col p-6 transition-transform duration-300 transform bg-white rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 hover:scale-105"
+                >
+                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900 dark:text-white">
+                    <Icon className="h-5 w-5 flex-none text-customBlue" aria-hidden="true" />
+                    {service.title}
+                  </dt>
+                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-500 dark:text-gray-300">
+                    <p className="flex-auto">{service.description}</p>
+                    <p className="mt-6">
+                      <a 
+                        href={service.path} 
+                        className="text-sm font-semibold leading-6 text-customBlue dark:text-customBlue"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(service.path);
+                        }}
+                      >
+                        Learn more <span aria-hidden="true">→</span>
+                      </a>
+                    </p>
+                  </dd>
                 </div>
-                <Button variant='primary' onClick={() => navigate(service.path)}>See More</Button>
-              </div>
-            );
-          })}
+              );
+            })}
+          </dl>
+          <div className="mt-16 flex justify-center">
+            <button
+              onClick={toggleShowAll}
+              className="px-4 py-2 text-sm font-semibold text-white bg-customBlue rounded-md hover:bg-customBlue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-customBlue"
+            >
+              {showAll ? 'Show Less' : 'Show All Services'}
+            </button>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

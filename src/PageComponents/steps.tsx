@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Button from "../CustomComponents/buttons";
-
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
+const steps = [
+  { id: 1, name: 'Book a Quote', description: 'Request a quote for our window cleaning services.' },
+  { id: 2, name: 'We Visit', description: 'We come to your location to assess your needs.' },
+  { id: 3, name: 'Receive a Quote', description: 'We send you a detailed quote for the services.' },
+  { id: 4, name: 'Choose to Book', description: 'Choose to proceed with the booking based on the quote.' },
+];
 
 interface StepsFields {
   bookingProcess: string;
@@ -54,21 +59,31 @@ const Steps: React.FC = () => {
   }
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl md:grid md:grid-cols-2 lg:py-16 lg:px-6 dark:text-white">
-        <div className="font-light text-gray-500 sm:text-lg dark:text-white lg:order-1">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            {content?.bookingProcess || 'Easy Booking Process'}
-          </h2>
-          <div className="mb-4">
-            {documentToReactComponents(content?.bookingProcessInfo)}
+    <section className="bg-gray-50 dark:bg-gray-800">
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div className="lg:flex lg:items-center lg:justify-between">
+          <div className="max-w-2xl lg:mx-0 lg:max-w-xl">
+            <h2 className="text-base font-semibold leading-8 text-customBlue dark:text-customBlue">Get A Quote</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
+              {content?.bookingProcess || 'Easy Booking Process'}
+            </p>
+            <p className="mt-6 text-lg leading-8 text-black dark:text-white">
+              {documentToReactComponents(content?.bookingProcessInfo)}
+            </p>
+            <div className="mt-8">
+              <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-customBlue px-5 py-3 text-base font-medium text-white hover:bg-customBlue-dark">
+                Get a Quote
+              </button>
+            </div>
           </div>
-          <div className="mt-4">
-            <Button className="mr-4" to='/contact' variant='primary'>Get A Quote</Button>
+          <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:mt-0 lg:ml-16 lg:max-w-xl lg:grid-cols-2">
+            {steps.map((step) => (
+              <div key={step.id} className="flex flex-col gap-y-3 border-l border-black dark:border-white pl-6 text-black dark:text-white">
+                <dt className="text-sm leading-6">{step.description}</dt>
+                <dd className="order-first text-3xl font-semibold tracking-tight">{step.name}</dd>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="hidden md:flex justify-center md:order-2">
-          <img className="w-full rounded-lg mt-4 md:mt-0" src="images/beforeafter/patio2.jpeg" alt="office content 1" />
         </div>
       </div>
     </section>

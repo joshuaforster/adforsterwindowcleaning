@@ -41,7 +41,11 @@ interface SliderGalleryImageEntry extends EntrySkeletonType<SliderGalleryImageFi
   fields: SliderGalleryImageFields;
 }
 
-const ImageGallery: React.FC = () => {
+interface ImageGalleryProps {
+  limit?: number;
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ limit }) => {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -74,7 +78,12 @@ const ImageGallery: React.FC = () => {
           secondImage: item.fields.afterImage?.fields.file.url || '',
         })).filter(item => item.firstImage && item.secondImage);
 
-        setItems([...singleImages, ...sliderImages]);
+        let allItems = [...singleImages, ...sliderImages];
+        if (limit) {
+          allItems = allItems.slice(0, limit);
+        }
+
+        setItems(allItems);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching content:', error);
@@ -84,7 +93,7 @@ const ImageGallery: React.FC = () => {
     };
 
     fetchContentfulData();
-  }, []);
+  }, [limit]);
 
   const handlePrevious = () => {
     if (currentIndex !== null) {
@@ -111,7 +120,7 @@ const ImageGallery: React.FC = () => {
       <div className="px-4 py-8 mx-auto max-w-screen-xl lg:px-6 lg:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {items.map((item, index) => (
-            <div key={index} className="relative w-full h-60 overflow-hidden">
+            <div key={index} className="relative w-full h-60 overflow-hidden border border-black dark:border-white">
               {item.type === 'image' ? (
                 <div className="w-full h-full">
                   <SingleImage

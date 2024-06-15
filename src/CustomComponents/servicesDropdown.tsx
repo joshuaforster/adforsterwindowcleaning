@@ -28,7 +28,7 @@ const ServiceDropdown: React.FC<ServiceDropdownProps> = ({ isDropdownOpen, toggl
                   handleLinkClick(); // Ensure mobile menu closes
                   closeDropdown();
                 }}
-                className="text-gray-700 dark:text-white block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="text-gray-700 dark:text-white block px-8 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 {service.title}
               </Link>

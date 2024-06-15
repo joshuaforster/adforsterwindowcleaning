@@ -1,108 +1,126 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../CustomComponents/darkmode';
+import { FaFacebook, FaEnvelope, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
-  type NavLinks = {
-    name: string;
-    path?: string;
-    type?: string;
+  const navigation = {
+    navigationLinks: [
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+      { name: "FAQ's", path: '/faq' },
+      { name: 'Gallery', path: '/gallery' },
+      { name: 'Services', path: '/services' },
+      { name: 'Contact', path: '/contact' }
+    ],
+    services: [
+      { name: "Window Cleaning", path: "/services/windows" },
+      { name: "Frames and Sills", path: "/services/frames-sills" },
+      { name: "Conservatories", path: "/services/conservatories" },
+      { name: "Gutters and Fascias", path: "/services/gutters-fascias" },
+      { name: "Solar Panels", path: "/services/solar-panels" },
+      { name: "Caravan Cleaning", path: "/services/caravan-cleaning" },
+      { name: "Domestic and Commercial", path: "/services/domestic-commercial" },
+      { name: "Patio and Regular Cleans", path: "/services/patio-regular-cleans" },
+      { name: "Mini Digger", path: "/services/mini-digger" }
+    ],
+    legalLinks: [
+      { name: "Privacy Policy", path: "/privacy-policy" },
+      { name: "Terms & Conditions", path: "/terms-conditions" }
+    ],
+    social: [
+      { name: 'Facebook', href: 'https://www.facebook.com', icon: FaFacebook },
+      { name: 'Email', href: 'mailto:info@example.com', icon: FaEnvelope },
+      { name: 'YouTube', href: 'https://www.youtube.com', icon: FaYoutube }
+    ],
   };
 
-  const navigationLinks: NavLinks[] = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: "FAQ's", path: '/faq' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Services', type: 'dropdown' },
-    { name: 'Contact', path: '/contact' }
-  ];
-
-  const services = [
-    { name: "Window Cleaning", path: "/services/windows" },
-    { name: "Frames and Sills", path: "/services/frames-sills" },
-    { name: "Conservatories", path: "/services/conservatories" },
-    { name: "Gutters and Fascias", path: "/services/gutters-fascias" },
-    { name: "Solar Panels", path: "/services/solar-panels" },
-    { name: "Caravan Cleaning", path: "/services/caravan-cleaning" },
-    { name: "Domestic and Commercial", path: "/services/domestic-commercial" },
-    { name: "Patio and Regular Cleans", path: "/services/patio-regular-cleans" },
-    { name: "Mini Digger", path: "/services/mini-digger" }
-  ];
-
-  const legalLinks = [
-    { name: "Privacy Policy", path: "/privacy-policy" },
-    { name: "Terms & Conditions", path: "/terms-conditions" }
-  ];
-
   const { theme } = useTheme();
-
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="p-4 bg-gray-100 sm:p-6 dark:bg-gray-800">
-       <div className="border-t border-gray-200 dark:border-white sm:pt-8"></div>
-      <div className="mx-auto max-w-screen-xl">
-        <div className="md:flex md:justify-between">
-          <div className="flex flex-col items-center mb-6 md:mb-0 md:items-start md:w-1/4">
-            <Link to="/" className="flex items-center mb-4 md:mb-0">
+    <footer className="bg-gray-200 dark:bg-gray-800" aria-labelledby="footer-heading">
+      <h2 id="footer-heading" className="sr-only">Footer</h2>
+      <div className="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-16 lg:px-8 lg:pt-20">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="space-y-8">
+            <Link to="/">
               <img
-                src={theme === 'dark' ? 'images/AD Forster Logo Dark.png' : 'images/AD Forster Logo.png'}
                 className="h-12 sm:h-14"
+                src={theme === 'dark' ? 'images/AD Forster Logo Dark.png' : 'images/AD Forster Logo.png'}
                 alt="Company Logo"
               />
             </Link>
+         
+            <div className="flex space-x-6">
+              {navigation.social.map((item) => (
+                <a key={item.name} href={item.href} className="text-gray-400 dark:text-white hover:text-gray-500">
+                  <span className="sr-only">{item.name}</span>
+                  <item.icon className="h-6 w-6" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap justify-between md:w-3/4">
-            {/* Navigation Section */}
-            <div className="w-full sm:w-1/3 mb-6 md:mb-0 text-center md:text-left">
-            <div className=" md:hidden border-t border-gray-200 dark:border-gray-400 pt-8 my-4"></div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Navigation</h2>
-              <ul className="text-gray-600 dark:text-white">
-                {navigationLinks.map((link, index) => (
-                  link.path ? (
-                    <li key={index} className="mb-4">
-                      <Link to={link.path} className="hover:underline">{link.name}</Link>
+          <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Navigation</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {navigation.navigationLinks.map((item) => (
+                    <li key={item.name}>
+                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                        {item.name}
+                      </Link>
                     </li>
-                  ) : null
-                ))}
-              </ul>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Services</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {navigation.services.map((item) => (
+                    <li key={item.name}>
+                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-
-            {/* Services Section */}
-            <div className="w-full sm:w-1/3 mb-6 md:mb-0 text-center md:text-left">
-            <div className=" md:hidden border-t border-gray-200 dark:border-gray-400 pt-8 my-4"></div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Services</h2>
-              <ul className="text-gray-600 dark:text-white">
-                {services.map((service, index) => (
-                  <li key={index} className="mb-4">
-                    <Link to={service.path} className="hover:underline">{service.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Legal Section */}
-            <div className="w-full sm:w-1/3 text-center md:text-left">
-            <div className=" md:hidden border-t border-gray-200 dark:border-gray-400 pt-8 my-4"></div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-              <ul className="text-gray-600 dark:text-white">
-                {legalLinks.map((link, index) => (
-                  <li key={index} className="mb-4">
-                    <Link to={link.path} className="hover:underline">{link.name}</Link>
-                  </li>
-                ))}
-              </ul>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Legal</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {navigation.legalLinks.map((item) => (
+                    <li key={item.name}>
+                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Contact</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                  <a href="tel:+447342367824">Phone: 07342 367824</a>
+                </li>
+                <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                  <a href="mailto:enquiries@adforsterwindowcleaning.co.uk">Email: enquiries@adforsterwindowcleaning.co.uk</a>
+                </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between text-center">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-white">© {currentYear} <Link to="/" className="hover:underline">AD Forster™</Link>. All Rights Reserved.</span>
+        <div className="mt-16 border-t dark:border-white border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
+          <p className="text-xs leading-5 text-gray-500 dark:text-white">
+            &copy; {currentYear} AD Forster™. All rights reserved.
+          </p>
         </div>
       </div>
-    
-    
     </footer>
   );
 }

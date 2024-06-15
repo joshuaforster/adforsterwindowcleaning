@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS } from '@contentful/rich-text-types';
+import { documentToReactComponents, Options } from '@contentful/rich-text-react-renderer';
+import { BLOCKS, Document } from '@contentful/rich-text-types';
 import { useServices } from '../CustomComponents/ServicesContext';
 import Button from '../CustomComponents/buttons';
 
@@ -15,12 +15,24 @@ export default function ServiceDetail() {
     return <div>Service not found</div>;
   }
 
-  const renderOptions = {
+  const renderOptions: Options = {
+    renderText: (text: string) => {
+      return text.split('\n').reduce<(string | JSX.Element)[]>((children, textSegment, index) => {
+        if (index > 0) {
+          return [...children, <br key={index} />, textSegment];
+        } else {
+          return [...children, textSegment];
+        }
+      }, []);
+    },
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
-        return <p className="mb-4">{children}</p>; // Adds margin-bottom to each paragraph
+        return (
+          <p style={{ marginBottom: '1.5rem' }}>
+            {children}
+          </p>
+        ); // Adds margin-bottom to each paragraph
       },
-      // You can add more custom renderers here if needed
     },
   };
 
@@ -32,9 +44,9 @@ export default function ServiceDetail() {
             {service.title}
           </h2>
           <div className="mb-4">
-            {documentToReactComponents(service.details, renderOptions)}
+            {documentToReactComponents(service.details as Document, renderOptions)}
           </div>
-          <h3 className="mt-8 mb-4 text-2xl tracking-tight font-bold text-gray-900 dark:text-white">
+          <h3 className="mt-8 mb-8 text-2xl tracking-tight font-bold text-gray-900 dark:text-white">
             Are you interested?
           </h3>
           <Button variant="primary" to="/contact">Get a Quote</Button>

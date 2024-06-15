@@ -26,10 +26,11 @@ export default function Slider({ firstImage, secondImage, onPrevious, onNext, is
   };
 
   return (
-    <div>
+    <div className="w-full h-full relative overflow-hidden">
       <div
-        className="relative w-full h-full overflow-hidden cursor-pointer transition-transform duration-300 transform hover:scale-105"
+        className="relative w-full h-full cursor-pointer transition-transform duration-300 transform hover:scale-105"
         onClick={openFullscreen}
+        style={{ objectFit: 'cover' }} // Ensuring the images cover the container
       >
         <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-300"></div>
         <ReactBeforeSliderComponent
@@ -37,11 +38,12 @@ export default function Slider({ firstImage, secondImage, onPrevious, onNext, is
           secondImage={secondImage}
         />
       </div>
-
+  
       {isFullscreen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
-          onClick={closeFullscreen}    >
+          onClick={closeFullscreen}
+        >
           <button
             className="absolute top-4 right-4 text-white text-3xl z-50"
             onClick={(e) => { e.stopPropagation(); closeFullscreen(); }}
@@ -72,5 +74,5 @@ export default function Slider({ firstImage, secondImage, onPrevious, onNext, is
         </div>
       )}
     </div>
-    );
+  );
 }

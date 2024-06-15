@@ -19,14 +19,15 @@ export default function SingleImage({ imageUrl, onPrevious, onNext, isFullscreen
   };
 
   return (
-    <div>
+    <div className="w-full h-full relative overflow-hidden">
       <img
         src={imageUrl}
         alt="placeholder"
         className="object-cover w-full h-full cursor-pointer hover:opacity-90"
         onClick={openFullscreen}
+        style={{ objectFit: 'cover' }} // Ensuring the image covers the container
       />
-
+  
       {isFullscreen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"

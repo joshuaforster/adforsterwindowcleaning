@@ -5,10 +5,7 @@
     <link rel="icon" href="images/AD Forster Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>AD Forster Window Cleaning</title>
@@ -19,9 +16,27 @@
 
     <!-- Hidden static HTML form for Netlify -->
     <form name="contact" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <textarea name="message"></textarea>
+      <input type="hidden" name="form-name" value="contact" />
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div>
+        <label for="postcode">Postcode</label>
+        <input type="text" id="postcode" name="postcode" required />
+      </div>
+      <div>
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required />
+      </div>
+      <div>
+        <label for="message">How can we help you?</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
     </form>
   </body>
 </html>

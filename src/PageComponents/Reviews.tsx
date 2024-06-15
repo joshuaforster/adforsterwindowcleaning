@@ -31,7 +31,6 @@ const TestimonialSlider: React.FC = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        // @ts-ignore
         const response = await client.getEntries({
           content_type: 'reviews',
           limit: 100,
@@ -66,46 +65,44 @@ const TestimonialSlider: React.FC = () => {
   }
 
   return (
-    <div className="py-16 mx-auto  dark:bg-gray-900 bg-gray-100 dark:bg-#0C0500">
+    <div className="py-16 mx-auto bg-white dark:bg-gray-900">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 dark:text-white">Testimonials</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">Testimonials</h2>
         <p className="text-center mb-8 text-gray-600 dark:text-gray-300">
           Here are some of the reviews from our satisfied customers. Click the button below to see more reviews on our Facebook page.
         </p>
         <Swiper
           modules={[Navigation, Pagination, A11y]}
-          spaceBetween={50}
+          spaceBetween={20}
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
           loop={true}
-          onSwiper={(swiper: SwiperType) => console.log(swiper)}
-          onSlideChange={() => console.log('slide change')}
         >
           {reviews.map((review, index) => (
             <SwiperSlide key={index}>
-              <div className="p-4 text-center">
-                <div className="bg-#F4E1CF dark:bg-neutral-800 p-6 rounded-lg mb-8 shadow-lg w-full lg:w-3/4 mx-auto">
-                  <div className="text-gray-800 dark:text-white mb-4">
-                    {documentToReactComponents(review.review)}
+              <div className="flex justify-center">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg mb-8 shadow-lg w-full lg:w-3/4 mx-auto">
+                  <div className="flex gap-x-1 text-yellow-400 mb-4">
+                    <FaStar className="h-5 w-5" aria-hidden="true" />
+                    <FaStar className="h-5 w-5" aria-hidden="true" />
+                    <FaStar className="h-5 w-5" aria-hidden="true" />
+                    <FaStar className="h-5 w-5" aria-hidden="true" />
+                    <FaStar className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <div className="flex flex-col items-center">
-                    <div>
-                      <p className="text-lg font-semibold dark:text-white">{review.name}</p>
-                      <div className="flex justify-center">
-                        {[...Array(5)].map((_, i) => (
-                          <FaStar key={i} className="text-yellow-500" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <blockquote className="text-xl font-semibold leading-8 tracking-tight text-gray-900 dark:text-white">
+                    <p className="text-left">{documentToReactComponents(review.review)}</p>
+                  </blockquote>
+                  <figcaption className="mt-10 text-sm leading-6 text-gray-900 dark:text-white">
+                    <div className="font-semibold text-left">{review.name}</div>
+                  </figcaption>
                 </div>
               </div>
             </SwiperSlide>
           ))}
           <div className="swiper-pagination"></div>
         </Swiper>
-        <div className="text-center mt-8">
+        <div className="flex justify-center mt-8">
           <Button variant="primary" to="https://www.facebook.com/profile.php?id=100069334146139&sk=reviews">
             See More Reviews on Facebook
           </Button>
