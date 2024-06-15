@@ -5,7 +5,6 @@ import Services from "../PageComponents/services";
 import Location from "../PageComponents/Location";
 import TestimonialSlider from "../PageComponents/Reviews";
 import HomeGallery from "../PageComponents/homegallery";
-
 export default function Home() {
   return (
     <>
