@@ -65,7 +65,7 @@ export default function Footer() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Navigation</h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.navigationLinks.map((item) => (
                     <li key={item.name}>
                       <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
@@ -77,7 +77,7 @@ export default function Footer() {
               </div>
               <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Services</h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.services.map((item) => (
                     <li key={item.name}>
                       <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
@@ -91,7 +91,7 @@ export default function Footer() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Legal</h3>
-                <ul role="list" className="mt-6 space-y-4">
+                <ul className="mt-6 space-y-4">
                   {navigation.legalLinks.map((item) => (
                     <li key={item.name}>
                       <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
@@ -103,13 +103,13 @@ export default function Footer() {
               </div>
               <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Contact</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                  <a href="tel:+447342367824">Phone: 07342 367824</a>
-                </li>
-                <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                  <a href="mailto:enquiries@adforsterwindowcleaning.co.uk">Email: enquiries@adforsterwindowcleaning.co.uk</a>
-                </li>
+                <ul className="mt-6 space-y-4">
+                  <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                    <a href="tel:+447342367824">Phone: 07342 367824</a>
+                  </li>
+                  <li className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                    <a href="mailto:enquiries@adforsterwindowcleaning.co.uk">Email: enquiries@adforsterwindowcleaning.co.uk</a>
+                  </li>
                 </ul>
               </div>
             </div>
