@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 
 const credentials = [
   { label: 'Use Deionised Water', description: 'We use purified, deionised water for a streak-free clean that leaves no residue.' },

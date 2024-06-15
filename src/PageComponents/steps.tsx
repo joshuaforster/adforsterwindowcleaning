@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from "../CustomComponents/buttons";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 const steps = [
