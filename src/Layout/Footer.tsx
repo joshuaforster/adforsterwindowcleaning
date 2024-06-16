@@ -42,7 +42,7 @@ export default function Footer() {
     <footer className="bg-gray-200 dark:bg-gray-800" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-16 lg:px-8 lg:pt-20">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div className="xl:grid xl:grid-cols-2 xl:gap-8">
           <div className="space-y-8">
             <Link to="/">
               <img

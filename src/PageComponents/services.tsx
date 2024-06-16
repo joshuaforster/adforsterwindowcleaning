@@ -27,35 +27,31 @@ const Services: React.FC = () => {
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            {servicesToShow.map((service) => {
-              const Icon = service.icon;
-              return (
-                <div 
-                  key={service.id} 
-                  className="flex flex-col p-6 transition-transform duration-300 transform bg-white rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 hover:scale-105"
-                >
-                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900 dark:text-white">
-                    <Icon className="h-5 w-5 flex-none text-customBlue" aria-hidden="true" />
-                    {service.title}
-                  </dt>
-                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-500 dark:text-gray-300">
-                    <p className="flex-auto">{service.description}</p>
-                    <p className="mt-6">
-                      <a 
-                        href={service.path} 
-                        className="text-sm font-semibold leading-6 text-customBlue dark:text-customBlue"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate(service.path);
-                        }}
-                      >
-                        Learn more <span aria-hidden="true">→</span>
-                      </a>
-                    </p>
-                  </dd>
-                </div>
-              );
-            })}
+            {servicesToShow.map((service) => (
+              <div 
+                key={service.id} 
+                className="flex flex-col p-6 transition-transform duration-300 transform bg-white rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 hover:scale-105"
+              >
+                <dt className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+                  {service.title}
+                </dt>
+                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-500 dark:text-gray-300">
+                  <p className="flex-auto">{service.description}</p>
+                  <p className="mt-6">
+                    <a 
+                      href={service.path} 
+                      className="text-sm font-semibold leading-6 text-customBlue dark:text-customBlue"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(service.path);
+                      }}
+                    >
+                      Learn more <span aria-hidden="true">→</span>
+                    </a>
+                  </p>
+                </dd>
+              </div>
+            ))}
           </dl>
           <div className="mt-16 flex justify-center">
             <button
