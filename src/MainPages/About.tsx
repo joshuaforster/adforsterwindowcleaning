@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
@@ -7,10 +8,15 @@ const client = createClient({
   accessToken: 'VPNyQgxB1pWAka3k7hdMjZyWTPNuBmdWTmVnF1UydtQ',
 });
 
-const About = () => {
+const About: React.FC = () => {
   const [aboutData, setAboutData] = useState<any>(null);
   const [credentials, setCredentials] = useState<any[]>([]);
   const [values, setValues] = useState<any[]>([]);
+
+  const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.75 });
+  const { ref: contentRef, inView: contentInView } = useInView({ triggerOnce: true, threshold: 0.75 });
+  const { ref: imageRef, inView: imageInView } = useInView({ triggerOnce: true, threshold: 0.75 });
+  const { ref: valuesRef, inView: valuesInView } = useInView({ triggerOnce: true, threshold: 0.75 });
 
   useEffect(() => {
     const fetchAboutPageData = async () => {
@@ -42,7 +48,12 @@ const About = () => {
     <div className="bg-white dark:bg-gray-900">
       <main className="isolate">
         {/* Hero section */}
-        <div className="relative isolate -z-10">
+        <div
+          ref={heroRef}
+          className={`relative isolate -z-10 transition-all duration-1000 transform ${
+            heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full dark:stroke-gray-800 stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
             aria-hidden="true"
@@ -143,7 +154,12 @@ const About = () => {
           </div>
         </div>
         {/* Content section */}
-        <div className="mx-auto mt-6 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8">
+        <div
+          ref={contentRef}
+          className={`mx-auto mt-6 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:-mt-8 transition-all duration-1000 transform ${
+            contentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none lg:flex-col  lg:items-start">
             <h2 className="text-3xl font-bold tracking-tight dark:text-white text-gray-900 sm:text-4xl text-left">
               {aboutData.whyUs}
@@ -169,37 +185,47 @@ const About = () => {
             </div>
           </div>
         </div>
-              {/* Image section */}
-      <div className="mt-32 sm:mt-20 xl:mx-auto xl:max-w-7xl xl:px-8">
-        <img
-          src="images/yachtclub.jpg"
-          alt=""
-          className="aspect-[5/2] w-full object-cover xl:rounded-3xl"
-        />
-      </div>
+        {/* Image section */}
+        <div
+          ref={imageRef}
+          className={`mt-32 sm:mt-20 xl:mx-auto xl:max-w-7xl xl:px-8 transition-all duration-1000 transform ${
+            imageInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <img
+            src="images/yachtclub.jpg"
+            alt=""
+            className="aspect-[5/2] w-full object-cover xl:rounded-3xl"
+          />
+        </div>
 
-      {/* Values section */}
-<div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-10 pb-20 lg:px-8">
-  <div className="mx-auto max-w-2xl lg:mx-0">
-    <h2 className="text-3xl font-bold tracking-tight dark:text-white text-gray-900 sm:text-4xl">Our values</h2>
-    <p className="mt-6 text-lg leading-8 dark:text-white text-gray-600">
-      We believe in providing excellent service with integrity, honesty, and professionalism. Our values drive everything we do.
-    </p>
-  </div>
-  <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-    {values.map((value) => (
-      <div key={value.valueTitle}>
-        <dt className="font-semibold dark:text-white text-gray-900">{value.valueTitle}</dt>
-        <dd className="mt-1 dark:text-white text-gray-600">
-          {documentToReactComponents(value.valueSubtext)}
-        </dd>
-      </div>
-    ))}
-  </dl>
-</div>
-</main>
-</div>
-);
-}
+        {/* Values section */}
+        <div
+          ref={valuesRef}
+          className={`mx-auto mt-32 max-w-7xl px-6 sm:mt-10 pb-20 lg:px-8 transition-all duration-1000 transform ${
+            valuesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <h2 className="text-3xl font-bold tracking-tight dark:text-white text-gray-900 sm:text-4xl">Our values</h2>
+            <p className="mt-6 text-lg leading-8 dark:text-white text-gray-600">
+              We believe in providing excellent service with integrity, honesty, and professionalism. Our values drive everything we do.
+            </p>
+          </div>
+          <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {values.map((value) => (
+              <div key={value.valueTitle}>
+                <dt className="font-semibold dark:text-white text-gray-900">{value.valueTitle}</dt>
+                <dd className="mt-1 dark:text-white text-gray-600">
+                  {documentToReactComponents(value.valueSubtext)}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </main>
+    </div>
+  );
+};
 
 export default About;

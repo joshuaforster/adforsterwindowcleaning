@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
+const Contact: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-export default function Contact() {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const { top } = sectionRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight * 0.75) {
+          setIsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check visibility on initial render
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="relative bg-white dark:bg-gray-900">
+    <div
+      ref={sectionRef}
+      className={`relative bg-white dark:bg-gray-900 transition-all duration-1000 transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="lg:absolute lg:inset-0 lg:left-1/2">
         <img
           className="h-64 w-full bg-gray-50 object-cover sm:h-80 lg:absolute lg:h-full lg:top-0"
@@ -129,3 +153,5 @@ export default function Contact() {
     </div>
   );
 }
+
+export default Contact;

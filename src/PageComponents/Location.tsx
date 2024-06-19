@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createClient, EntryCollection } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
@@ -17,12 +17,14 @@ const Location: React.FC = () => {
   const [description, setDescription] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
         // @ts-ignore
-        const response: EntryCollection<LocationFields> = await client.getEntries<LocationFields>({
+        const response: EntryCollection<LocationFields> = await client.getEntries({
           content_type: 'location',
           limit: 1,
         });
@@ -47,6 +49,23 @@ const Location: React.FC = () => {
     fetchContent();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const { top } = sectionRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight * 0.75) {
+          setIsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check visibility on initial render
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -57,14 +76,19 @@ const Location: React.FC = () => {
 
   const options = {
     renderNode: {
-      'paragraph': (node: any, children: React.ReactNode) => (
+      paragraph: (node: any, children: React.ReactNode) => (
         <p className="mb-4">{children}</p>
       ),
     },
   };
 
   return (
-    <section className="bg-gray-100 dark:bg-gray-800">
+    <section
+      ref={sectionRef}
+      className={`bg-gray-100 dark:bg-gray-800 transition-all duration-1000 transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
         <div className="font-light text-gray-500 sm:text-lg dark:text-white">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">

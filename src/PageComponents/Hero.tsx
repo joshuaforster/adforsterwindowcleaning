@@ -1,11 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import Button from '../CustomComponents/buttons';
 
 const images = [
-  'images/about4.png',
   'images/about.jpg',
+  'images/about1.png',
+  'images/about2.png',
+  'images/about3.png',
+  'images/about4.png',
+  'images/booking.jpg',
+  'images/broom.jpg',
+  'images/caravan.jpg',
+  'images/cleanhouse.jpeg',
+  'images/conservatories.jpg',
+  'images/conservatoryroofs.png',
+  'images/digger.png',
+  'images/fasciaceaning.png',
+  'images/gutter.jpg',
+  'images/gutterclearing.png',
+  'images/gutters.jpg',
+  'images/gutterwash.jpg',
+  'images/hero.jpg',
+  'images/HeroDesktop.png',
+  'images/hoover.jpg',
+  'images/house.jpg',
   'images/patio.jpeg',
-  'images/hero.jpg', // Add as many images as you want
+  'images/patiocleaning.png',
+  'images/roof.jpg',
+  'images/terrace.jpg',
+  'images/van.png',
+  'images/van1.jpg',
+  'images/WhatsApp Image 2024-05-18 at 17.19.13.jpeg',
+  'images/windowclean.jpg',
+  'images/windowcleaning.png',
+  'images/windowcleaningservices.png',
+  'images/yachtclub.jpg',
 ];
 
 interface HeroFields {
@@ -28,7 +57,7 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4000); 
+    }, 4000); // Change every 4 seconds
 
     return () => clearInterval(intervalId);
   }, []);
@@ -59,6 +88,9 @@ const Hero: React.FC = () => {
       });
   }, []);
 
+  const { ref: headerRef, inView: headerInView } = useInView({ triggerOnce: true });
+  const { ref: paragraphRef, inView: paragraphInView } = useInView({ triggerOnce: true });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -68,41 +100,83 @@ const Hero: React.FC = () => {
   }
 
   return (
-    <section className="bg-blue-50 dark:bg-gray-950">
-      <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 md:grid-cols-12">
-        <div className="mr-auto place-self-center md:col-span-7">
+    <div className="relative isolate overflow-hidden pt-14">
+      <div className="absolute inset-0 -z-10 h-full w-full">
+        <div
+          style={{
+            backgroundImage: `url(${images[currentImageIndex]})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transition: 'background-image 2s ease-in-out',
+          }}
+          className="absolute inset-0 h-full w-full"
+        />
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
+
+      <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div className="text-center">
           <h1
-            className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl xl:text-5xl dark:text-white text-center md:text-left"
-            style={{ lineHeight: '1.25' }}
+            ref={headerRef}
+            className={`text-4xl font-bold tracking-tight text-white sm:text-6xl ${
+              headerInView ? 'animate-slideInRight' : 'opacity-0'
+            }`}
+            style={{
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 1)', // Adjust the shadow to your preference
+              lineHeight: '1.5', // Set the line height to 1.5 times the font size
+            }}
           >
             {content?.headline || 'Professional Window Cleaners in Norwich'}
           </h1>
           <p
-            className="font-sans max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-white text-center md:text-left"
-            style={{ lineHeight: '2' }}
+            ref={paragraphRef}
+            className={`mt-6 text-lg leading-8 text-white ${
+              paragraphInView ? 'animate-slideInLeft' : 'opacity-0'
+            }`}
           >
             {content?.subHeadline || 'We offer top-notch window cleaning services for residential and commercial properties in Norwich. Let us help you keep your windows sparkling clean.'}
           </p>
-          <div className="flex justify-center md:justify-start">
+          <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button className="mr-4" variant="primary" to="/contact">Contact</Button>
             <Button variant="secondary" to="/about">Find Out More</Button>
           </div>
         </div>
-        <div className="md:col-span-5 flex items-center justify-center md:justify-end">
-          <div className="relative w-full h-64 md:w-full md:h-96">
-            {images.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Slide ${index}`}
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
-                style={{ transition: 'opacity 1s ease-in-out' }}
-              />
-            ))}
-          </div>
-        </div>
       </div>
-    </section>
+
+      <style>
+        {`
+          @keyframes slideInRight {
+            0% {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            100% {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          @keyframes slideInLeft {
+            0% {
+              transform: translateX(-100%);
+              opacity: 0;
+            }
+            100% {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          .animate-slideInRight {
+            animation: slideInRight 2s ease-in-out forwards;
+          }
+
+          .animate-slideInLeft {
+            animation: slideInLeft 2s ease-in-out forwards;
+          }
+        `}
+      </style>
+    </div>
   );
 };
 

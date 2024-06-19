@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 const steps = [
@@ -23,6 +23,8 @@ const Steps: React.FC = () => {
   const [content, setContent] = useState<StepsFields | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>('');
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const url = `https://cdn.contentful.com/spaces/7y2nhmah12fi/environments/master/entries?access_token=VPNyQgxB1pWAka3k7hdMjZyWTPNuBmdWTmVnF1UydtQ&content_type=home`;
@@ -49,6 +51,23 @@ const Steps: React.FC = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const { top } = sectionRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight * 0.75) {
+          setIsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check visibility on initial render
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -58,7 +77,12 @@ const Steps: React.FC = () => {
   }
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-800">
+    <section
+      ref={sectionRef}
+      className={`bg-gray-50 dark:bg-gray-800 transition-all duration-1000 transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="max-w-2xl lg:mx-0 lg:max-w-xl">
@@ -77,15 +101,30 @@ const Steps: React.FC = () => {
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:mt-0 lg:ml-16 lg:max-w-xl lg:grid-cols-2">
             {steps.map((step) => (
-              <div key={step.id} className="flex flex-col gap-y-3 border-l border-black dark:border-white pl-6 text-black dark:text-white">
-                <dt className="text-sm leading-6">{step.description}</dt>
-                <dd className="order-first text-3xl font-semibold tracking-tight">{step.name}</dd>
-              </div>
+              <Step key={step.id} step={step} isVisible={isVisible} />
             ))}
           </div>
         </div>
       </div>
     </section>
+  );
+};
+
+interface StepProps {
+  step: { id: number; name: string; description: string };
+  isVisible: boolean;
+}
+
+const Step: React.FC<StepProps> = ({ step, isVisible }) => {
+  return (
+    <div
+      className={`flex flex-col gap-y-3 border-l border-black dark:border-white pl-6 text-black dark:text-white transform transition-transform duration-700 ease-in-out ${
+        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+      }`}
+    >
+      <dt className="text-sm leading-6">{step.description}</dt>
+      <dd className="order-first text-3xl font-semibold tracking-tight">{step.name}</dd>
+    </div>
   );
 };
 

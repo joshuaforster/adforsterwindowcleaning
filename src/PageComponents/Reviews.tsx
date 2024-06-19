@@ -8,6 +8,7 @@ import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { FaStar } from 'react-icons/fa';
 import Button from '../CustomComponents/buttons';
+import { useInView } from 'react-intersection-observer';
 
 const spaceId = '7y2nhmah12fi';
 const accessToken = 'VPNyQgxB1pWAka3k7hdMjZyWTPNuBmdWTmVnF1UydtQ';
@@ -26,6 +27,10 @@ const TestimonialSlider: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { ref: sectionRef, inView: sectionInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.75,
+  });
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -64,9 +69,16 @@ const TestimonialSlider: React.FC = () => {
   }
 
   return (
-    <div className="py-16 mx-auto bg-white dark:bg-gray-900">
+    <div
+      ref={sectionRef}
+      className={`py-16 mx-auto bg-white dark:bg-gray-900 transition-all duration-1000 transform ${
+        sectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">Testimonials</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+          Testimonials
+        </h2>
         <p className="text-center mb-8 text-gray-600 dark:text-gray-300">
           Here are some of the reviews from our satisfied customers. Click the button below to see more reviews on our Facebook page.
         </p>
@@ -90,7 +102,9 @@ const TestimonialSlider: React.FC = () => {
                     <FaStar className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <blockquote className="text-xl font-semibold leading-8 tracking-tight text-gray-900 dark:text-white">
-                    <p className="text-left">{documentToReactComponents(review.review)}</p>
+                    <p className="text-left">
+                      {documentToReactComponents(review.review)}
+                    </p>
                   </blockquote>
                   <figcaption className="mt-10 text-sm leading-6 text-gray-900 dark:text-white">
                     <div className="font-semibold text-left">{review.name}</div>
@@ -102,7 +116,10 @@ const TestimonialSlider: React.FC = () => {
           <div className="swiper-pagination"></div>
         </Swiper>
         <div className="flex justify-center mt-8">
-          <Button variant="primary" to="https://www.facebook.com/profile.php?id=100069334146139&sk=reviews">
+          <Button
+            variant="primary"
+            to="https://www.facebook.com/profile.php?id=100069334146139&sk=reviews"
+          >
             See More Reviews on Facebook
           </Button>
         </div>

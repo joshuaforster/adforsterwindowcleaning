@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Services />
       <Steps />
+      <Services />
       <HomeGallery />
       <Location />
       <TestimonialSlider />
