@@ -4,7 +4,6 @@ import { useServices } from '../CustomComponents/ServicesContext';
 
 const Services: React.FC = () => {
   const { services } = useServices();
-  const navigate = useNavigate();
   const [showAll, setShowAll] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
