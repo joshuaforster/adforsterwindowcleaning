@@ -42,7 +42,7 @@ export default function Footer() {
     <footer className="bg-gray-200 dark:bg-gray-800" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-16 lg:px-8 lg:pt-20">
-        <div className="xl:grid xl:grid-cols-2 xl:gap-8">
+        <div className="xl:grid xl:grid-cols-4 xl:gap-8">
           <div className="space-y-8">
             <Link to="/">
               <img
@@ -61,46 +61,42 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Navigation</h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.navigationLinks.map((item) => (
-                    <li key={item.name}>
-                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Services</h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.services.map((item) => (
-                    <li key={item.name}>
-                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 xl:col-span-3 xl:mt-0 md:grid md:grid-cols-3 md:gap-8">
+            <div>
+              <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Navigation</h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.navigationLinks.map((item) => (
+                  <li key={item.name}>
+                    <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Legal</h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.legalLinks.map((item) => (
-                    <li key={item.name}>
-                      <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Services</h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.services.map((item) => (
+                  <li key={item.name}>
+                    <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Legal</h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.legalLinks.map((item) => (
+                  <li key={item.name}>
+                    <Link to={item.path} className="text-sm leading-6 text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white">
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
