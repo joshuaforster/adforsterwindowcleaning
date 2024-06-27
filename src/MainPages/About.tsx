@@ -41,19 +41,16 @@ const About: React.FC = () => {
   }, []);
 
   if (!aboutData) {
-    return <div>Loading...</div>;
+    return <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex items-center justify-center">
+      Loading...
+    </div>;
   }
-
+  
   return (
     <div className="bg-white dark:bg-gray-900">
       <main className="isolate">
         {/* Hero section */}
-        <div
-          ref={heroRef}
-          className={`relative isolate -z-10 transition-all duration-1000 transform ${
-            heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div className="relative isolate -z-10">
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full dark:stroke-gray-800 stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
             aria-hidden="true"
@@ -93,7 +90,7 @@ const About: React.FC = () => {
           <div className="overflow-hidden">
             <div className="mx-auto max-w-7xl px-6 pb-32 pt-12 sm:pt-60 lg:px-8 lg:pt-4">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-                <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
+                <div ref={heroRef} className={`w-full max-w-xl lg:shrink-0 xl:max-w-2xl transition-all duration-1000 transform ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                   <h1 className="text-4xl font-bold tracking-tight dark:text-white text-gray-900 sm:text-6xl">
                     {aboutData.heading}
                   </h1>

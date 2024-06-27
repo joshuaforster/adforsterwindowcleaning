@@ -79,30 +79,31 @@ const Steps: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className={`bg-gray-50 dark:bg-gray-800 transition-all duration-1000 transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-      }`}
+      className={`relative bg-gray-50 dark:bg-gray-800 transition-none duration-1000 transform`}
     >
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <div className="lg:flex lg:items-center lg:justify-between">
-          <div className="max-w-2xl lg:mx-0 lg:max-w-xl">
-            <h2 className="text-base font-semibold leading-8 text-customBlue dark:text-customBlue">Get A Quote</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
-              {content?.bookingProcess || 'Easy Booking Process'}
-            </p>
-            <p className="mt-6 text-lg leading-8 text-black dark:text-white">
-              {documentToReactComponents(content?.bookingProcessInfo)}
-            </p>
-            <div className="mt-8">
-              <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-customBlue px-5 py-3 text-base font-medium text-white hover:bg-customBlue-dark">
-                Get a Quote
-              </button>
+      <div className="fixed inset-0 bg-gray-50 dark:bg-gray-800 -z-10" />
+      <div className={`transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          <div className="lg:flex lg:items-center lg:justify-between">
+            <div className="max-w-2xl lg:mx-0 lg:max-w-xl">
+              <h2 className="text-base font-semibold leading-8 text-customBlue dark:text-customBlue">Get A Quote</h2>
+              <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                {content?.bookingProcess || 'Easy Booking Process'}
+              </p>
+              <p className="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">
+                {documentToReactComponents(content?.bookingProcessInfo)}
+              </p>
+              <div className="mt-8">
+                <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-customBlue px-5 py-3 text-base font-medium text-white hover:bg-customBlue-dark">
+                  Get a Quote
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:mt-0 lg:ml-16 lg:max-w-xl lg:grid-cols-2">
-            {steps.map((step) => (
-              <Step key={step.id} step={step} isVisible={isVisible} />
-            ))}
+            <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:mt-0 lg:ml-16 lg:max-w-xl lg:grid-cols-2">
+              {steps.map((step) => (
+                <Step key={step.id} step={step} isVisible={isVisible} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -118,7 +119,7 @@ interface StepProps {
 const Step: React.FC<StepProps> = ({ step, isVisible }) => {
   return (
     <div
-      className={`flex flex-col gap-y-3 border-l border-black dark:border-white pl-6 text-black dark:text-white transform transition-transform duration-700 ease-in-out ${
+      className={`flex flex-col gap-y-3 border-l border-gray-900 dark:border-gray-300 pl-6 text-gray-900 dark:text-gray-300 transform transition-transform duration-700 ease-in-out ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
       }`}
     >
